@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>福州邦联化工有限公司</title>
+    <meta name="keywords" content="福州邦联化工有限公司" />
+    <meta name="description" content="福州邦联化工有限公司" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/ie6.js"></script>
+    <script type=text/javascript src="js/h_javascript.js"></script>
+    <script>
+        window.onload=function(){check_bodywidth('bodybox',1110);}
+    </script>
+    <script type="text/javascript" src="js/DrawImage.js"></script>
+</head>
+<body>
+<div id="bodybox">
+    <!-----------------top0------------------>
+    <div class="top_box">
+        <em><a href="index.html"><img src="images/logo.jpg" border="0" /></a></em>
+
+        <ul>
+            <li><a href="/" class="con">首 页</a></li>
+            <li><a href="page/aboutus.html" >关于邦联</a></li>
+            <li><a href="" >产品供应</a></li>
+            <li><a href="" >公司资讯</a></li>
+            <li><a href="" >资质证书</a></li>
+            <li><a href="" >公司相册</a></li>
+            <li><a href="" >联系我们</a></li>
+            <li><a href="" >人才招聘</a></li>
+        </ul>
+    </div>
+
+    <div class="slide banner" data-slide='{"action":"click","fn":"banner_ext","time":"8000"}'>
+        <div class="ban_c album"><a href="#"><img src="images/2014825234917718.jpg" alt="邦联" /></a></div>
+        <div class="ban_c album"><a href="#"><img src="images/2014825234917718.jpg" alt="邦联" /></a></div>
+        <div class="ban_c album"><a href="#"><img src="images/2014825234917718.jpg" alt="邦联" /></a></div>
+    </div>
+    <div class="wrap bann_ext">
+        <ul class="l frontCover"></ul>
+    </div>
+
+
+
+<script>
+    var ie6 = !-[1,] && !window.XMLHttpRequest;
+    var userAgent = navigator.userAgent.toLowerCase();
+    var browser = {
+        ie8: /msie 8/.test(userAgent),
+        ie7: /msie 7/.test(userAgent)
+    };
+
+    //Slide func
+    $.fn.slide=function(){
+        var defaults,opts,data_opts,$this,$b_,t,n=0,count,$nav,$p,$n,DelayObj,Delay=false;
+        defaults={
+            fade:true,
+            auto:true,
+            time:4000,
+            action:'mouseover',
+            fn:null
+        };
+        $this=$(this);
+        data_opts=$this.data('slide')||{};
+        opts=$.extend({},defaults,data_opts);
+        $b_=$this.children('.ban_c');
+        count=$b_.length;
+        if($this.find('.ban_nav').length){$nav=$this.find('.ban_nav')}else{
+            $nav=$('<div class="ban_nav"></div>');
+            for(i=0;i<count;i++){$nav.append('<a>'+(i+1)+'</a>')};
+            $this.append($nav)
+        };
+        $this.append('<a class="Left" onselectstart="return false;"></a><a class="Right" onselectstart="return false;"></a>');
+        $nav.children('a').eq(0).addClass('on');
+        $nav.children('a').eq(1).addClass('ban_next');
+        $nav.children('a').eq(count-1).addClass('ban_prev');
+        $b_.hide().eq(0).show();
+        if(ie6){$b_.height($b_.attr('height') || $this.height())};
+        $nav.children('a').each(function(index) {
+            $(this).on(opts.action,function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (index >= count){return false}else{
+                    $nav.children('a').eq(index-1).addClass('ban_prev').siblings().removeClass('ban_prev');
+                    $nav.children('a').eq(index==count-1 ? 0 : index+1).addClass('ban_next').siblings().removeClass('ban_next')
+                };
+                if(opts.fade){$b_.stop(1,1).fadeOut(200).eq(index).stop(1,1).fadeIn(500)}else{$b_.hide().eq(index).show()};
+                $(this).addClass('on').siblings().removeClass("on");
+                n=index
+            })
+        });
+        $p=$(this).find('.Left');
+        $n=$(this).find('.Right');
+        if(opts.auto){
+            t = setInterval(function(){showAuto()}, opts.time);
+            $this.mouseenter(function(){
+                clearInterval(t);
+            }).mouseleave(function(){
+                t=setInterval(function(){showAuto()},opts.time);
+            })
+        };
+        $p.click(function(){showPre()});
+        $n.click(function(){showAuto()});
+        function showAuto(){n=n>=(count - 1) ? 0 : ++n;$nav.find('a').eq(n).trigger(opts.action);};
+        function showPre(){n=n<=0 ? (count - 1) : --n;$nav.find('a').eq(n).trigger(opts.action)};
+        if(opts.fn){eval(opts.fn+"(opts,$b_,$nav)")}
+    };
+    $('.slide').each(function() {$(this).slide()});
+
+    //banner专辑封面
+    function banner_ext(opts,$b_,$nav){
+        var album=$b_.filter(function(){return $(this).hasClass('album')}),
+                newslink=$('.banner').find('.link');
+        newslink.eq(0).show();
+        if(browser.ie8) opts.fade=false;
+        $b_.each(function(i){
+            $(this).data('index',i)
+        });
+        album.each(function(i){
+            $('.frontCover').append('<li index="'+($(this).data('index'))+'"><div class="img">'+$(this).find('a').eq(0).html()+'</div><p>'+$(this).find('img').eq(0).attr('alt')+'</p></li>')
+        });
+        $nav.children('a').each(function(index) {
+            $(this).click(function(){
+                $('.frontCover').children('li').filter(function() {
+                    return $(this).attr('index')==index
+                }).addClass('open').siblings().removeClass('open');
+                newslink.eq($('.frontCover').find('.open').index()).show().siblings('.link').hide();
+            })
+        });
+        $('.frontCover').children('li').click(function(){
+            $nav.children('a').eq($(this).attr('index')).trigger('click')
+        });
+        $('.frontCover').children('li').eq(0).addClass('open').end().eq(-1).css('margin',0)
+    };
+
+</script>
+
+    <!-----------------top1------------------>
+    <!-----------------mid0------------------>
+
+    <div class="h_mid_con1">
+
+        <div class="left_box">
+            <div class="left_ad" style="display: block!important;">
+                <script>
+                    var t = n = 0, count;
+                    $(document).ready(function(){
+                        count=$("#banner_list a").length;
+                        $("#banner_list a:not(:first-child)").hide();
+                        $("#banner_list a:eq(0)").show();
+                        $("#ad_banner li").eq(0).addClass("on").siblings().removeClass("on");
+
+                        $("#ad_banner li").mouseover(function() {
+                            $('#banner_list').children('a').eq($('#ad_banner li').index(this)).find("img").each(function(){
+                                var img = this;
+                                if(img.getAttribute("initSrc")){        //alert(2);
+                                    img.src = img.getAttribute("initSrc");
+                                    img.removeAttribute("initSrc");
+                                }
+                            });
+
+                            var i = $(this).text() - 1;//获取Li元素内的值，即1，2，3，4
+                            n = i;
+                            if (i >= count) return;
+                            $("#banner_list a").filter(":visible").fadeOut(1000).parent().children().eq(i).fadeIn(1000);
+                            document.getElementById("ad_banner").style.background="";
+                            $(this).toggleClass("on");
+                            $(this).siblings().removeAttr("class");
+                        });
+                        t = setInterval("showAuto()", 5000);
+                        $("#ad_banner").hover(function(){clearInterval(t)}, function(){t = setInterval("showAuto()", 5000);});
+                    })
+
+                    function showAuto()
+                    {
+                        n = n >=(count - 1) ? 0 : ++n;
+                        $("#ad_banner li").eq(n).trigger('mouseover');
+                        $("#ad_banner li").eq(n).trigger('mouseout');
+                    }
+                </script>
+                <style type="text/css">
+                    #ad_banner { position:relative; margin:0px; padding:0px; width:390px; height:150px; text-align:left; float:left; display:inline; overflow:hidden; }
+                    #ad_banner ul {position:absolute; margin:0px; padding:0px; list-style-type:none; filter: Alpha(Opacity=80);opacity:0.8; z-index:8; bottom:8px; right:10px; }
+                    #ad_banner ul li { margin:0 3px; padding:0px 4px; height:16px; line-height:16px; border:1px solid #aaa; background:#F9F9F9; cursor:pointer; float:left; display:block;}
+                    #ad_banner ul li.on { background:#e60000; color:#fff; }
+                    #banner_list a{  } <!-- 让四张图片都可以重叠在一起-->
+                </style>
+                <div id="ad_banner" style="display: block!important;">
+
+                    <ul>
+
+                        <li>1</li>
+
+                        <li>2</li>
+
+                    </ul>
+                    <div id="banner_list" style="display: block!important;">
+
+                        <a href="http://" title="" style="display:inline;" target="_blank"><img src="images/jj.jpg" width="390" height="150" border="0"></a>
+
+                        <a href="http://" title="" style="display:inline;" target="_blank"><img src="images/jj.jpg" width="390" height="150" border="0"></a>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="right_con">
+                <div class="h_typename"><b>资讯</b><i>News center</i><em><a href="news.asp"><img src="images/more01.jpg" border="0" /></a></em></div>
+                <!------------------------>
+                <SCRIPT type=text/javascript src="js/common.js"></SCRIPT>
+                <div class="news_rollBox">
+                    <div class="h_Box" id="ISL_Cont_1">
+
+
+                        <div class="h_item_box">
+                            <dl>
+                                <dt><a href="news_detailed.asp?nid=8" title="公司乔迁暨三周年庆典" target="_blank">公司乔迁暨三周年庆典</a></dt>
+                                <dd><i>2015-08-10</i>
+                                    <p>2015年8月1日，公司举行了隆重的乔迁暨三周年庆典，邀请了多年的合作伙伴们及各行业的贵宾，现...</p></dd>
+                            </dl>
+                        </div>
+
+                        <div class="h_item_box">
+                            <dl>
+                                <dt><a href="news_detailed.asp?nid=7" title="2014云浮游" target="_blank">2014云浮游</a></dt>
+                                <dd><i>2014-09-24</i>
+                                    <p>
+                                        8月的一个周末，广州邦顿大家庭的成员们来到了位于广东省云浮市的悦和庄温泉酒店，2日1夜...</p></dd>
+                            </dl>
+                        </div>
+
+
+                    </div>
+                    <div class="h_button">
+                        <div id="LeftArr_1" class="h_left"></div>
+                        <div id="RightArr_1" class="h_right"></div>
+                    </div>
+                </div>
+                <SCRIPT language=javascript type=text/javascript>
+                    <!--//--><![CDATA[//><!--
+                    var scrollPic_1 = new ScrollPic();
+                    scrollPic_1.scrollContId   = "ISL_Cont_1"; //内容容器ID
+                    scrollPic_1.arrLeftId      = "LeftArr_1";//左箭头ID
+                    scrollPic_1.arrRightId     = "RightArr_1"; //右箭头ID
+                    scrollPic_1.frameWidth     = 310;//显示框宽度
+                    scrollPic_1.pageWidth      = 310; //翻页宽度
+                    scrollPic_1.speed          = 10; //移动速度(单位毫秒，越小越快)
+                    scrollPic_1.space          = 10; //每次移动像素(单位px，越大越快)
+                    scrollPic_1.autoPlay       = true; //自动播放
+                    scrollPic_1.autoPlayTime   = 6; //自动播放间隔时间(秒)
+                    scrollPic_1.initialize(); //初始化
+                    //--><!]]>
+                </SCRIPT>
+                <!------------------------>
+            </div>
+        </div>
+
+
+        <div class="right_box">
+            <div class="h_typename"><b>公司简介</b><i>About us</i><em><a href="aboutus.asp"><img src="images/more01.jpg" border="0" /></a></em></div>
+            <div class="h_con">
+                &nbsp; &nbsp;福州邦联化工有限公司成立于1996年5月，从事化学工业原辅材料的经营公司，代理产品包括树脂、乳液、单体、溶剂、助剂及颜填料，广泛应用于涂料、油漆、油墨、皮革、塑胶及防水材料领域，常备现货600多品种，是福建及海峡西岸经济区在该行业内最具实力的供货商这之一...........
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="h_mid_con2">
+        <div class="main_box">
+
+            <div class="h_typename"><b>产品中心</b><i>Product center</i></div>
+            <!--下面是向左滚动代码-->
+
+            <div id="colee_left" class="h_conlist">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr><td id="colee_left1" valign="top">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+
+
+                                <td style="padding:0 20px 0 0;"><p><i><a href="product_detailed.asp?nid=7" title="雅柯斯康明斯柴油发电机组" target="_blank"><img src="images/produce/07095002935.jpg" border="0" onload="DrawImage(this,200,140);" /></a></i><u><a href="product_detailed.asp?nid=7" title="雅柯斯康明斯柴油发电机组" target="_blank">雅柯斯康明斯柴油发电机组</a></u></p></td>
+
+                                <td style="padding:0 20px 0 0;"><p><i><a href="product_detailed.asp?nid=6" title="LB1A 母线槽" target="_blank"><img src="images/produce/35827854.jpg" border="0" onload="DrawImage(this,200,140);" /></a></i><u><a href="product_detailed.asp?nid=6" title="LB1A 母线槽" target="_blank">LB1A 母线槽</a></u></p></td>
+
+                                <td style="padding:0 20px 0 0;"><p><i><a href="product_detailed.asp?nid=5" title="LB1C 母线槽" target="_blank"><img src="images/produce/feijiuranliao1628340874.jpg" border="0" onload="DrawImage(this,200,140);" /></a></i><u><a href="product_detailed.asp?nid=5" title="LB1C 母线槽" target="_blank">LB1C 母线槽</a></u></p></td>
+
+                                <td style="padding:0 20px 0 0;"><p><i><a href="product_detailed.asp?nid=4" title="LB6C 母线槽" target="_blank"><img src="images/produce/g3_6604961.jpg" border="0" onload="DrawImage(this,200,140);" /></a></i><u><a href="product_detailed.asp?nid=4" title="LB6C 母线槽" target="_blank">LB6C 母线槽</a></u></p></td>
+
+                                <td style="padding:0 20px 0 0;"><p><i><a href="product_detailed.asp?nid=3" title="LB5C 母线槽" target="_blank"><img src="images/produce/u=2992108495,1479827295&fm=21&gp=0.jpg" border="0" onload="DrawImage(this,200,140);" /></a></i><u><a href="product_detailed.asp?nid=3" title="LB5C 母线槽" target="_blank">LB5C 母线槽</a></u></p></td>
+
+                                <td style="padding:0 20px 0 0;"><p><i><a href="product_detailed.asp?nid=2" title="原装进口三菱重工柴油发电机组" target="_blank"><img src="images/produce/化工原料铝瓶.jpg" border="0" onload="DrawImage(this,200,140);" /></a></i><u><a href="product_detailed.asp?nid=2" title="原装进口三菱重工柴油发电机组" target="_blank">原装进口三菱重工柴油发电机组</a></u></p></td>
+
+
+                            </tr>
+                        </table>
+                    </td>
+                        <td id="colee_left2" valign="top"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <script>
+                //使用div时，请保证colee_left2与colee_left1是在同一行上.
+                var speed=20    //速度数值越大速度越慢
+                var colee_left2=document.getElementById("colee_left2");
+                var colee_left1=document.getElementById("colee_left1");
+                var colee_left=document.getElementById("colee_left");
+                colee_left2.innerHTML=colee_left1.innerHTML
+                function Marquee3(){
+                    if(colee_left2.offsetWidth-colee_left.scrollLeft<=0)//offsetWidth 是对象的可见宽度
+                        colee_left.scrollLeft-=colee_left1.offsetWidth//scrollWidth 是对象的实际内容的宽，不包边线宽度
+                    else{
+                        colee_left.scrollLeft++
+                    }
+                }
+                var MyMar3=setInterval(Marquee3,speed)
+                colee_left.onmouseover=function() {clearInterval(MyMar3)}
+                colee_left.onmouseout=function() {MyMar3=setInterval(Marquee3,speed)}
+            </script>
+
+            <!--向左滚动代码结束-->
+
+        </div>
+    </div>
+
+
+
+    <div class="h_mid_con3">
+
+        <div class="left_box">
+            <div class="h_typename"><b>荣誉资质</b><i>Honor</i></div>
+            <dl>
+
+                <dt style="padding-bottom: 20px"><a href="#" title=""><img src="images/zhengshu/zs1.jpg" width="210" height="100" border="0" /></a></dt>
+
+                <dd>邦联....</dd>
+
+            </dl>
+        </div>
+
+        <div class="left_box">
+            <div class="h_typename"><b>产品</b><i>Product</i></div>
+            <dl>
+
+                <dt><a href="case.asp" title=""><img src="UploadFiles/20148260335996.jpg" width="210" height="80" border="0" /></a></dt>
+                <dd>香港的如伊丽沙白</dd>
+
+            </dl>
+        </div>
+
+        <div class="left_box">
+            <div class="h_typename"><b>人才招聘</b><i>Job</i></div>
+            <dl>
+
+                <dt><a href="service.asp" title="联系人：梁工 18665555680"><img src="UploadFiles/20148260344960.jpg" width="210" height="80" border="0" /></a></dt>
+                <dd>联系人：梁工 18665555680</dd>
+
+            </dl>
+        </div>
+
+        <div class="right_box">
+            <div class="h_typename"><b>联系我们</b><i>Contact us</i></div>
+                <dt></dt>
+                <dd>电话：0591-87732066</dd>
+                <dd>传真：0591-87732198</dd>
+                <dd>网站：www.fzbanglian.com</dd>
+                <dd>地 址：福州市晋安区坂中路6号五四北泰禾广场3号楼1717室</dd>
+            </dl>
+        </div>
+
+    </div>
+    <!-----------------mid1------------------>
+    <!-----------------foot0------------------>
+    <div class="bottom_box">
+        <div class="main_box" style="margin: 0 auto;text-align: center ">
+            福州邦联化工有限公司 &nbsp; &nbsp; &nbsp;　福州市晋安区坂中路6号五四北泰禾广场3号楼1717室　　电话：0591-87732066　　传真：<span>0591-87732198 </span>&nbsp; &nbsp; &nbsp; &nbsp;技术支持 &nbsp;：<strong><span style="color:#FFFFFF;"><a href="#" target="_blank">二进制网络</a></span></strong>&nbsp;
+        </div>
+    </div>
+    <!-----------------foot1------------------>
+</div>
+</body>
+</html>
